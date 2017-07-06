@@ -1,0 +1,21 @@
+---
+- name: Copy Unit Tests Over
+  copy: src=unit_tests dest=/usr/local owner=root group=root mode=755
+
+- name: Get a list of unit tests
+  command: ls /usr/local/unit_tests
+  register: unit_tests
+
+- name: Account Unit Tests
+  command: "/usr/local/unit_tests/{{ item }}"
+  with_items:
+    - "{{ unit_tests.stdout_lines }}"
+  register: ut_output
+
+- name: Unit Test Output2
+  debug: msg="Output - {{ item.stdout }}"
+  with_items:
+  -  "{{ ut_output.results }}"
+
+
+  

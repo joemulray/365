@@ -1,0 +1,39 @@
+---
+  - name: Update the apt cache (don't update more than once every 2 hours)
+    apt:  update_cache=yes
+      cache_valid_time=18000
+
+  - name: Install hosts file
+    # From: http://xmeblog.blogspot.com/2013/06/ansible-dynamicaly-update-etchosts.html
+    lineinfile: dest=/etc/hosts regexp='.*{{ item }}$' line="{{ hostvars[item]['ansible_default_ipv4']['address'] }} {{item}}" state=present
+    when: hostvars[item]['ansible_default_ipv4']['address'] is defined
+    with_items: groups['all'] 
+
+  - name: Set Hostname
+    shell: hostname {{ hostname }}
+
+  - name: Set /etc/hostname
+    lineinfile: dest=/etc/hostname state=present regexp='^.*$' line={{ hostname }}
+
+  - name: Fix sshd_config to not allow passwords over ssh
+    lineinfile: 
+      dest=/etc/ssh/sshd_config
+      line="PermitRootLogin without-password"
+      regexp="PermitRootLogin.*"
+    notify: Restart sshd
+
+  - name: fix sshd_config to only do IPv4 and allow X tunneling
+    lineinfile: 
+      dest=/etc/ssh/sshd_config
+      line="AddressFamily inet"
+      regexp="AddressFamily.*"
+    notify: Restart sshd
+
+  - name: Clear root password
+    lineinfile:
+      dest=/etc/shadow
+      line="root::16228:0:99999:7:::"
+      regexp="root.*"
+
+  - name: Install traceroute
+    apt: name=traceroute state=present

@@ -1,0 +1,11 @@
+---
+- name: Restart sshd
+  service:
+    name=ssh
+    state=restarted
+    enabled=yes
+
+- name: Install traceroute
+  apt:
+    name: traceroute
+    state: latest

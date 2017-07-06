@@ -1,0 +1,34 @@
+---
+- name: create groups
+  group: name=g{{ item }} state=present
+  with_sequence:
+    - count=6
+
+- name: debug accounts
+  debug: var={{ item }}
+  with_items:
+    - "{{ accounts[hostname] }}"
+
+- name: Add Accounts for host
+  user:
+    createhome=yes
+    name="{{ item.name }}"
+    comment="{{ item.gecos }}"
+    uid="{{ item.uid }}"
+    shell="/bin/bash"
+  with_items:
+    - "{{ accounts[hostname] }}"
+
+- name: Get list of home directories
+  command: ls /home
+  register: home_dirs
+
+- name: Create user files
+  lineinfile: dest=/home/{{ item }}/myfile state=present regexp='^.*$' line={{ item }} create=true owner={{ item }} group={{ item }} mode=0644
+  with_items:
+  - "{{ home_dirs.stdout_lines }}"
+
+- name: Account Unit Tests
+  include: unit_tests.yml
+  tags: unit_tests
+

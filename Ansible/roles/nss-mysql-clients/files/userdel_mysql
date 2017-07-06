@@ -1,0 +1,52 @@
+#!/bin/bash
+
+cmd=$(basename $0)
+
+LibUserAddFile=${LibUserAddMySQL:=/usr/lib/libuseradd_mysql.sh}
+
+[ -e "$LibUserAddFile" ] && . "$LibUserAddFile"
+
+while getopts fhnrRvZ arg
+do
+	case $arg in
+		f|R|Z)
+			true
+			;;
+		*)
+			eval "opt_${arg}=\${OPTARG:=1}"
+			;;
+	esac
+done
+
+shift $((OPTIND - 1))
+
+
+User="$1"
+
+OIFS="$IFS"
+IFS=:
+read -a UserEntry <<<"$(getent passwd $User)"
+IFS="$OIFS"
+
+if [ -z "${UserEntry[*]}" ]
+then
+	warning "$cmd : No user '$User'"
+	exit 1
+fi
+
+rmUserMySQL "$User"
+
+rmUserFromGroupsMySQL "$User" 
+
+rmGroupMySQL "$User"
+
+if [ -n "$opt_r" ]
+then
+	HDir="${UserEntry[5]}"
+	[ -e "$HDir" ] &&
+		sys rm -rf "$HDir"
+	#
+	# Should also remove the mail dir, cronjobs, at jobs, and more.
+	#
+fi
+

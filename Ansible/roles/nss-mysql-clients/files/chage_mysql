@@ -1,0 +1,65 @@
+#!/bin/bash
+
+cmd=$(basename $0)
+
+LibUserAddFile=${LibUserAddMySQL:=/usr/lib/libuseradd_mysql.sh}
+
+[ -e "$LibUserAddFile" ] && . "$LibUserAddFile"
+
+while getopts d:E:I:lm:M:nW:v arg
+do
+	case $arg in
+		*)
+			eval "opt_${arg}=\${OPTARG:=1}"
+			;;
+	esac
+done
+
+shift $((OPTIND - 1))
+
+
+User="$1"
+
+OIFS="$IFS"
+IFS=:
+read -a UserEntry <<<"$(getent passwd $User)"
+IFS="$OIFS"
+
+UName=${UserEntry[0]}
+EPW=${UserEntry[1]}
+Uid=${UserEntry[2]}
+Gid=${UserEntry[3]}
+GeCOS=${UserEntry[4]}
+HDir=${UserEntry[5]}
+Shell=${UserEntry[6]}
+
+if [ -z "${UserEntry[*]}" ]
+then
+	warning "$cmd : No user '$User'"
+	exit 1
+fi
+
+#
+# Last return code needs to be true
+#
+[ -z "$opt_d" ] ||
+	setUserLastDayMySQL "$User" "$opt_d"
+
+[ -z "$opt_E" ] ||
+	setUserExpireDateMySQL "$User" "$opt_E"
+
+[ -z "$opt_I" ] ||
+	setUserInactiveMySQL "$User" "$opt_I"
+
+[ -z "$opt_l" ] ||
+	getUserAgingMySQL "$User" "$opt_l"
+
+[ -n "$opt_m" ] ||
+	setUserMinDaysMySQL "$User" "$opt_m"
+
+[ -n "$opt_M" ] ||
+	setUserMaxDaysMySQL "$User" "$opt_M"
+
+[ -z "$opt_W" ] ||
+	setUserWarnDaysMySQL "$User" "$opt_W"
+

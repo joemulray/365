@@ -1,0 +1,101 @@
+#!/bin/bash
+
+cmd=$(basename $0)
+
+LibUserAddFile=${LibUserAddMySQL:=/usr/lib/libuseradd_mysql.sh}
+
+[ -e "$LibUserAddFile" ] && . "$LibUserAddFile"
+
+while getopts ac:d:e:f:g:G:l:LmM:nop:s:u:UvZ: arg
+do
+	case $arg in
+		a|e|f|L|o|U|Z)
+			true
+			;;
+		*)
+			eval "opt_${arg}=\${OPTARG:=1}"
+			;;
+	esac
+done
+
+shift $((OPTIND - 1))
+
+
+User="$1"
+
+OIFS="$IFS"
+IFS=:
+read -a UserEntry <<<"$(getent passwd $User)"
+IFS="$OIFS"
+
+UName=${UserEntry[0]}
+EPW=${UserEntry[1]}
+Uid=${UserEntry[2]}
+Gid=${UserEntry[3]}
+GeCOS=${UserEntry[4]}
+HDir=${UserEntry[5]}
+Shell=${UserEntry[6]}
+
+if [ -z "${UserEntry[*]}" ]
+then
+	warning "$cmd : No user '$User'"
+	exit 1
+fi
+
+[ -n "$opt_c" ] &&
+	setUserGeCOSMySQL "$User" "$opt_c"
+
+if [ -n "$opt_d" ]
+then
+	setUserHDirMySQL "$User" "$opt_d"
+	[ -n "$opt_m" ] &&
+		sys mv "$HDir" "$opt_d"
+fi
+
+if [ -n "$opt_g" ]
+then
+	setUserGidMySQL "$User" "$opt_g"
+	if [ -n "${opt_n}${opt_v}" ]
+	then
+		warning "find $HDir -group "$Gid" | xargs chgrp '$opt_g'"
+		if [ -z "$opt_n" ]
+		then
+			find "$HDir" -group "$Gid" | xargs chgrp "$opt_g"
+		fi
+	fi
+fi
+
+if [ -n "$opt_G" ]
+then
+	true
+fi
+
+if [ -n "$opt_l" ]
+then
+	setUserUNameMySQL "$User" "$opt_l"
+fi
+
+if [ -n "$opt_p" ]
+then
+	setUserEPWMySQL "$User" "$opt_p"
+fi
+
+if [ -n "$opt_s" ]
+then
+	setUserShellMySQL "$User" "$opt_s"
+fi
+
+if [ -n "$opt_u" ]
+then
+	setUserUidMySQL "$User" "$opt_u"
+	if [ -n "${opt_n}${opt_v}" ]
+	then
+		warning "find '$HDir' | xargs chown '$opt_u'"
+		if [ -z "$opt_n" ]
+		then
+			find "$HDir" | xargs chown "$opt_u"
+		fi
+	fi
+fi
+
+

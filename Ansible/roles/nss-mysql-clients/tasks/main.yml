@@ -1,0 +1,79 @@
+---
+  - name: Install Pam/NSS Packages + whois for mkpasswd cmd
+    apt: name={{ item }}
+    with_items:
+      - whois
+      - mysql-client
+      - libnss-mysql-bg
+      - libpam-mysql
+
+  - name: Fix libnss-mysql.cfg host
+    lineinfile: "dest=/etc/libnss-mysql.cfg state=present regexp='^host' line='host	{{ nss_mysql_host }}'"
+
+  - name: Fix libnss-mysql user password
+    lineinfile: "dest=/etc/libnss-mysql.cfg state=present regexp='^password' line='password	{{ nss_mysql_user_password }}'"
+
+  - name: Fix libnss-mysql root password
+    lineinfile: "dest=/etc/libnss-mysql-root.cfg state=present regexp='^password' line='password	{{ nss_mysql_root_password }}'"
+
+  - name: Install /etc/pam-mysql.conf
+    template: src=pam-mysql.conf.j2 dest=/etc/pam-mysql.conf owner=root mode=0600
+
+  - name: Add mysql to passwd in nssswitch.conf
+    lineinfile: "dest=/etc/nsswitch.conf state=present regexp='^passwd:' line='passwd:	compat mysql'"
+
+  - name: Add mysql to shadow in nssswitch.conf
+    lineinfile: "dest=/etc/nsswitch.conf state=present regexp='^shadow:' line='shadow:	compat mysql'"
+
+  - name: Add mysql to group in nssswitch.conf
+    lineinfile: "dest=/etc/nsswitch.conf state=present regexp='^group:' line='group:	compat mysql'"
+
+  - name: Fix success=1 => success=2 for pam.d/common files
+    shell: sed -i 's/success=1/success=2/' {{ item }}
+    with_items:
+      - /etc/pam.d/common-account
+      - /etc/pam.d/common-auth
+      - /etc/pam.d/common-password
+      - /etc/pam.d/common-session
+
+  - name: Add pam_mysql.so to common-account
+    lineinfile: "dest=/etc/pam.d/common-account state=present insertafter='pam_unix.so' line='account sufficient pam_mysql.so config_file=/etc/pam-mysql.conf'"
+
+  - name: Add pam_mysql.so to common-auth 
+    lineinfile: "dest=/etc/pam.d/common-auth state=present insertafter='pam_unix.so' line='auth [success=1 default=ignore]	 pam_mysql.so config_file=/etc/pam-mysql.conf'"
+
+  - name: Add pam_mysql.so to common-password
+    lineinfile: "dest=/etc/pam.d/common-password state=present insertafter='pam_unix.so' line='password sufficient pam_mysql.so config_file=/etc/pam-mysql.conf'"
+
+  - name: Add pam_mysql.so to common-session
+    lineinfile: "dest=/etc/pam.d/common-session state=present insertafter='pam_unix.so' line='session sufficient pam_mysql.so config_file=/etc/pam-mysql.conf'"
+
+  - name: Copy in libuseradd_mysql.sh
+    copy: src=libuseradd_mysql.sh dest=/usr/lib/libuseradd_mysql.sh owner=root group=root mode=755
+
+  - name: Copy in new useradd commands
+    copy: src={{ item }} dest=/usr/local/bin/{{ item }} owner=root group=root mode=755
+    with_items:
+      - useradd_mysql
+      - usermod_mysql
+      - userdel_mysql
+      - groupadd_mysql
+      - groupdel_mysql
+      - groupmod_mysql
+      - chage_mysql
+
+  - name: Move old /usr/sbin useradd commands out of the way
+    file: src=/usr/local/bin/{{ item }}_mysql dest=/usr/sbin/{{ item }} owner=root group=root state=link force=true
+    with_items:
+      - useradd
+      - usermod
+      - userdel
+      - groupadd
+      - groupdel
+      - groupmod
+
+  - name: Move old /usr/bin useradd commands out of the way
+    file: src=/usr/local/bin/{{ item }}_mysql dest=/usr/bin/{{ item }} owner=root group=root state=link force=true
+    with_items:
+      - chage
+  

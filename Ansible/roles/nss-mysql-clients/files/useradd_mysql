@@ -1,0 +1,109 @@
+#!/bin/bash
+
+cmd=$(basename $0)
+
+LibUserAddFile=${LibUserAddMySQL:=/usr/lib/libuseradd_mysql.sh}
+
+[ -e "$LibUserAddFile" ] && . "$LibUserAddFile"
+
+while getopts "b:c:d:e:f:g:G:hk:K:lmMnNop:rR:s:u:vUz" arg
+do
+	case $arg in
+	    #
+	    # Ignore these flags for now
+	    #
+	    b|D|e|f|k|K|l|N|o|R|z)
+		;;
+
+	    *)
+		eval "opt_${arg}=\${OPTARG:=1}"
+		;;
+	esac
+done
+
+shift $((OPTIND - 1))
+
+UName=$1
+
+if [ -n "$opt_c" ]
+then
+	GeCOS="$opt_c"
+else
+	GeCOS="$UName"
+fi
+
+if [ -n "$opt_d" ]
+then
+	HDir="$opt_d"
+else
+	HDir="$MYHOME/$UName"
+fi
+
+GName="$UName"
+if [ -n "$opt_g" ]
+then
+	Gid=$opt_g
+	if ! echo "$Gid" | grep -P '^\d+$'
+	then
+		Gid=$(getent group "$Gid" | cut -f 3 -d :)
+		[ -z "$Gid" ] && Gid=$(getNextGid)
+	fi
+else
+	if [ -n "$opt_r" ]
+	then
+		Gid=$(getNextSysGid)
+	else
+		Gid=$(getNextGid)
+	fi
+fi
+
+if [ -n "$opt_m" ]
+then
+	CREATE_HOME=1
+fi
+
+if [ -n "$opt_p" ]
+then
+	EPW="$opt_p"
+else
+	EPW='x'
+fi
+
+if [ -n "$opt_s" ]
+then
+	SHELL="$opt_s"
+fi
+
+if [ -n "$opt_u" ]
+then
+	Uid=$opt_u
+else
+	if [ -n "$opt_r" ]
+	then
+	    Uid=$(getNextSysUid)
+	else
+	    Uid=$(getNextUid)
+	fi
+fi
+
+OldGid=$(getGroupIDMySQL "$GName")
+if [ -z "$OldGid" ]
+then
+	addGroup_MySQL "$GName" "$Gid"
+fi
+
+addUser_MySQL "$UName" "$EPW" "$Uid" "$Gid" "$GeCOS" "$HDir" "$SHELL"
+
+for i in $(echo $opt_G | sed 's/,/ /g')
+do
+	addUsersToGroup "$i" "$UName"
+done
+
+if [ -n "$CREATE_HOME" ]
+then
+	[ -e "$HDir" ] || sys mkdir "$HDir"
+	sys rsync -a "${SKEL}/" "$HDir/"
+	sys chown -R "${UName}.${Gid}" "$HDir"
+else
+	true
+fi

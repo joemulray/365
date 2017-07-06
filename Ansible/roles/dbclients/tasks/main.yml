@@ -1,0 +1,4 @@
+---
+  - name: Install MySQL Client
+    apt: name=mysql-client
+

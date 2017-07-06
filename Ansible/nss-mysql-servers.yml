@@ -1,0 +1,5 @@
+---
+  - hosts: nss-mysql-servers
+    roles: 
+      - dbservers
+      - nss-mysql-servers

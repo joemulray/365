@@ -1,0 +1,6 @@
+---
+- hosts: soho-hosts
+  roles:
+    - common
+    - setup-accounts
+

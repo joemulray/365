@@ -1,0 +1,214 @@
+jam699@tux2:~/cs365/cs365-working/Ansible$ ansible-playbook -i hosts trivial-homework.yml
+
+PLAY [soho-hosts] **************************************************************
+
+TASK [setup] *******************************************************************
+ok: [m1]
+ok: [m0]
+
+PLAY [soho-hosts] **************************************************************
+
+TASK [setup] *******************************************************************
+ok: [m0]
+ok: [m1]
+
+TASK [common : Update the apt cache (don't update more than once every 2 hours)] ***
+ok: [m1]
+ok: [m0]
+
+TASK [common : Install hosts file] *********************************************
+skipping: [m0] => (item=groups['all']) 
+skipping: [m1] => (item=groups['all']) 
+
+TASK [common : Set Hostname] ***************************************************
+changed: [m1]
+changed: [m0]
+
+TASK [common : Set /etc/hostname] **********************************************
+ok: [m0]
+ok: [m1]
+
+TASK [common : Fix sshd_config to not allow passwords over ssh] ****************
+ok: [m1]
+ok: [m0]
+
+TASK [common : fix sshd_config to only do IPv4 and allow X tunneling] **********
+ok: [m0]
+ok: [m1]
+
+TASK [common : Clear root password] ********************************************
+ok: [m0]
+ok: [m1]
+
+TASK [common : Install traceroute] *********************************************
+ok: [m0]
+ok: [m1]
+
+TASK [setup-accounts : create groups] ******************************************
+ok: [m1] => (item=1)
+ok: [m0] => (item=1)
+ok: [m1] => (item=2)
+ok: [m0] => (item=2)
+ok: [m1] => (item=3)
+ok: [m0] => (item=3)
+ok: [m1] => (item=4)
+ok: [m0] => (item=4)
+ok: [m1] => (item=5)
+ok: [m0] => (item=5)
+ok: [m1] => (item=6)
+ok: [m0] => (item=6)
+
+TASK [setup-accounts : debug accounts] *****************************************
+ok: [m0] => (item={'name': 'u1', 'uid': 2000, 'gecos': 'U. User1'}) => {
+    "<class 'dict'>": "VARIABLE IS NOT DEFINED!",
+    "item": {
+        "gecos": "U. User1",
+        "name": "u1",
+        "uid": 2000
+    }
+}
+ok: [m1] => (item={'name': 'u1', 'uid': 2000, 'gecos': 'User1'}) => {
+    "<class 'dict'>": "VARIABLE IS NOT DEFINED!",
+    "item": {
+        "gecos": "User1",
+        "name": "u1",
+        "uid": 2000
+    }
+}
+ok: [m0] => (item={'name': 'u2', 'uid': 2001, 'gecos': 'U. User2'}) => {
+    "<class 'dict'>": "VARIABLE IS NOT DEFINED!",
+    "item": {
+        "gecos": "U. User2",
+        "name": "u2",
+        "uid": 2001
+    }
+}
+ok: [m0] => (item={'name': 'u3', 'uid': 2002, 'gecos': 'U. User3'}) => {
+    "<class 'dict'>": "VARIABLE IS NOT DEFINED!",
+    "item": {
+        "gecos": "U. User3",
+        "name": "u3",
+        "uid": 2002
+    }
+}
+ok: [m1] => (item={'name': 'u3', 'uid': 2001, 'gecos': 'User3'}) => {
+    "<class 'dict'>": "VARIABLE IS NOT DEFINED!",
+    "item": {
+        "gecos": "User3",
+        "name": "u3",
+        "uid": 2001
+    }
+}
+ok: [m1] => (item={'name': 'u5', 'uid': 2002, 'gecos': 'User5'}) => {
+    "<class 'dict'>": "VARIABLE IS NOT DEFINED!",
+    "item": {
+        "gecos": "User5",
+        "name": "u5",
+        "uid": 2002
+    }
+}
+
+TASK [setup-accounts : Add Accounts for host] **********************************
+ok: [m0] => (item={'name': 'u1', 'uid': 2000, 'gecos': 'U. User1'})
+ok: [m1] => (item={'name': 'u1', 'uid': 2000, 'gecos': 'User1'})
+ok: [m0] => (item={'name': 'u2', 'uid': 2001, 'gecos': 'U. User2'})
+ok: [m1] => (item={'name': 'u3', 'uid': 2001, 'gecos': 'User3'})
+ok: [m0] => (item={'name': 'u3', 'uid': 2002, 'gecos': 'U. User3'})
+ok: [m1] => (item={'name': 'u5', 'uid': 2002, 'gecos': 'User5'})
+
+TASK [setup-accounts : Get list of home directories] ***************************
+changed: [m1]
+changed: [m0]
+
+TASK [setup-accounts : Create user files] **************************************
+ok: [m0] => (item=u1)
+ok: [m1] => (item=u1)
+ok: [m0] => (item=u2)
+ok: [m1] => (item=u3)
+ok: [m0] => (item=u3)
+ok: [m1] => (item=u5)
+ok: [m0] => (item=ubuntu)
+ok: [m1] => (item=ubuntu)
+
+TASK [setup-accounts : Copy Unit Tests Over] ***********************************
+ok: [m0]
+ok: [m1]
+
+TASK [setup-accounts : Get a list of unit tests] *******************************
+changed: [m1]
+changed: [m0]
+
+TASK [setup-accounts : Account Unit Tests] *************************************
+changed: [m0] => (item=ut-create-user.sh)
+changed: [m1] => (item=ut-create-user.sh)
+
+TASK [setup-accounts : Unit Test Output2] **************************************
+ok: [m1] => (item={'warnings': [], 'invocation': {'module_name': 'command', 'module_args': {'executable': None, 'warn': True, '_raw_params': '/usr/local/unit_tests/ut-create-user.sh', 'chdir': None, 'creates': None, 'removes': None, '_uses_shell': False}}, 'rc': 0, 'delta': '0:00:00.154396', 'item': 'ut-create-user.sh', '_ansible_item_result': True, 'stdout_lines': ['/usr/local/unit_tests/ut-create-user.sh - OK'], 'stdout': '/usr/local/unit_tests/ut-create-user.sh - OK', 'stderr': '', '_ansible_no_log': False, 'start': '2017-07-06 15:17:52.677894', 'cmd': ['/usr/local/unit_tests/ut-create-user.sh'], '_ansible_parsed': True, 'end': '2017-07-06 15:17:52.832290', 'changed': True}) => {
+    "item": {
+        "changed": true,
+        "cmd": [
+            "/usr/local/unit_tests/ut-create-user.sh"
+        ],
+        "delta": "0:00:00.154396",
+        "end": "2017-07-06 15:17:52.832290",
+        "invocation": {
+            "module_args": {
+                "_raw_params": "/usr/local/unit_tests/ut-create-user.sh",
+                "_uses_shell": false,
+                "chdir": null,
+                "creates": null,
+                "executable": null,
+                "removes": null,
+                "warn": true
+            },
+            "module_name": "command"
+        },
+        "item": "ut-create-user.sh",
+        "rc": 0,
+        "start": "2017-07-06 15:17:52.677894",
+        "stderr": "",
+        "stdout": "/usr/local/unit_tests/ut-create-user.sh - OK",
+        "stdout_lines": [
+            "/usr/local/unit_tests/ut-create-user.sh - OK"
+        ],
+        "warnings": []
+    },
+    "msg": "Output - /usr/local/unit_tests/ut-create-user.sh - OK"
+}
+ok: [m0] => (item={'warnings': [], 'invocation': {'module_name': 'command', 'module_args': {'executable': None, 'warn': True, '_raw_params': '/usr/local/unit_tests/ut-create-user.sh', 'chdir': None, 'creates': None, 'removes': None, '_uses_shell': False}}, 'rc': 0, 'delta': '0:00:00.168087', 'item': 'ut-create-user.sh', '_ansible_item_result': True, 'stdout_lines': ['/usr/local/unit_tests/ut-create-user.sh - OK'], 'stdout': '/usr/local/unit_tests/ut-create-user.sh - OK', 'stderr': '', '_ansible_no_log': False, 'start': '2017-07-06 15:17:52.644568', 'cmd': ['/usr/local/unit_tests/ut-create-user.sh'], '_ansible_parsed': True, 'end': '2017-07-06 15:17:52.812655', 'changed': True}) => {
+    "item": {
+        "changed": true,
+        "cmd": [
+            "/usr/local/unit_tests/ut-create-user.sh"
+        ],
+        "delta": "0:00:00.168087",
+        "end": "2017-07-06 15:17:52.812655",
+        "invocation": {
+            "module_args": {
+                "_raw_params": "/usr/local/unit_tests/ut-create-user.sh",
+                "_uses_shell": false,
+                "chdir": null,
+                "creates": null,
+                "executable": null,
+                "removes": null,
+                "warn": true
+            },
+            "module_name": "command"
+        },
+        "item": "ut-create-user.sh",
+        "rc": 0,
+        "start": "2017-07-06 15:17:52.644568",
+        "stderr": "",
+        "stdout": "/usr/local/unit_tests/ut-create-user.sh - OK",
+        "stdout_lines": [
+            "/usr/local/unit_tests/ut-create-user.sh - OK"
+        ],
+        "warnings": []
+    },
+    "msg": "Output - /usr/local/unit_tests/ut-create-user.sh - OK"
+}
+
+PLAY RECAP *********************************************************************
+m0                         : ok=18   changed=4    unreachable=0    failed=0   
+m1                         : ok=18   changed=4    unreachable=0    failed=0  
+

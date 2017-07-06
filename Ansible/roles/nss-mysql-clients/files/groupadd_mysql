@@ -1,0 +1,38 @@
+#!/bin/bash
+cmd=$(basename $0)
+
+LibUserAddFile=${LibUserAddMySQL:=/usr/lib/libuseradd_mysql.sh}
+
+[ -e "$LibUserAddFile" ] && . "$LibUserAddFile"
+
+while getopts "fg:hK:nop:rR:v" arg
+do
+	case $arg in
+	    #
+	    # Ignore these flags for now
+	    #
+	    f|K|o|R)
+		;;
+	    *)
+		eval "opt_${arg}=\${OPTARG:=1}"
+		;;
+	esac
+done
+
+shift $((OPTIND - 1))
+
+if [ -n "$opt_g" ]
+then
+	Gid=$opt_g
+else
+	if [ -n "$opt_r" ]
+	then
+		Gid=$(getNextSysGid)
+	else
+		Gid=$(getNextGid)
+	fi
+fi
+
+GName="$1"
+
+addGroup_MySQL "$GName" "$Gid"

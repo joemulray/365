@@ -1,0 +1,9 @@
+:q:q---
+  - name: Copy over initialization file
+    template: src="nss-mysql-init-auth.sql.j2" dest=/tmp/nss-mysql-init-auth.sql owner=root mode=0600
+
+  - name: Create Auth DB
+    mysql_db: name={{ nss_mysql_db }} state=import target=/tmp/nss-mysql-init-auth.sql
+
+  - name: Restart MySQL
+    action: service name=mysql state=restarted

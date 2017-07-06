@@ -1,0 +1,112 @@
+# Updated by Gaylord Holder, 2014/06/09
+#
+# $Id: sample_database.sql,v 1.2 2004/07/21 17:52:10 cinergi Exp $
+#
+#                THIS DATABASE IS INTENDED FOR Linux
+#
+# Use 'mysql -u root -p < sample_database.sql' to load this example into your
+# MySQL server.
+# This example will:
+#   1) create a database called 'auth'
+#   2) add three tables: 'users', 'groups' and 'grouplist'
+#   3) add some data to each table
+#   4) create two MySQL users ('nss_mysql_user' and 'nss_mysql_root_user') with appropriate
+#      SELECT privs.
+#
+# With a properly-functioning libnss-mysql, you should be able to log into
+# the system as 'cinergi' with a password of 'cinergi'.  'cinergi' should be
+# a member of the group 'foobaz' as well.
+#
+# This is intended as an *example* and is perhaps not the best use of
+# datatypes, space/size, data normalization, etc.
+#
+
+create database IF NOT EXISTS {{ nss_mysql_db }};
+use {{ nss_mysql_db }};
+
+# The tables ...
+CREATE TABLE groups (
+  name varchar(16) NOT NULL default '',
+  password varchar(200) NOT NULL default 'x',
+  gid int(11) NOT NULL auto_increment,
+  PRIMARY KEY  (gid)
+) ENGINE=MyISAM AUTO_INCREMENT=5000;
+
+CREATE TABLE grouplist (
+  rowid int(11) NOT NULL auto_increment,
+  gid int(11) NOT NULL default '0',
+  username char(16) NOT NULL default '',
+  PRIMARY KEY  (rowid)
+) ENGINE=MyISAM;
+
+CREATE TABLE users (
+  username varchar(16) NOT NULL default '',
+  uid int(11) NOT NULL auto_increment,
+  gid int(11) NOT NULL default '5000',
+  gecos varchar(128) NOT NULL default '',
+  homedir varchar(255) NOT NULL default '',
+  shell varchar(64) NOT NULL default '/bin/bash',
+  password varchar(200) NOT NULL default 'x',
+  lstchg bigint(20) NOT NULL default '1',
+  min bigint(20) NOT NULL default '0',
+  max bigint(20) NOT NULL default '99999',
+  warn bigint(20) NOT NULL default '0',
+  inact bigint(20) NOT NULL default '0',
+  expire bigint(20) NOT NULL default '-1',
+  flag bigint(20) unsigned NOT NULL default '0',
+  PRIMARY KEY  (uid),
+  UNIQUE KEY username (username),
+  KEY uid (uid)
+) ENGINE=MyISAM AUTO_INCREMENT=5000;
+
+SET GLOBAL sql_mode='NO_AUTO_VALUE_ON_ZERO';
+# The data ...
+INSERT INTO users (username,gecos,homedir,password)
+    VALUES ('cinergi', 'Ben Goodwin', '/home/cinergi', ENCRYPT('cinergi'));
+INSERT INTO groups (name)
+    VALUES ('foobaz');
+INSERT INTO grouplist (gid,username)
+    VALUES (5000,'cinergi');
+
+# The permissions ...
+GRANT USAGE ON *.* TO '{{ nss_mysql_root_user }}'@'localhost' IDENTIFIED BY '{{ nss_mysql_root_password }}';
+GRANT USAGE ON *.* TO '{{ nss_mysql_root_user }}'@'%' IDENTIFIED BY '{{ nss_mysql_root_password }}';
+
+GRANT USAGE ON *.* TO '{{ nss_mysql_user }}'@'localhost' IDENTIFIED BY '{{ nss_mysql_user_password }}';
+GRANT USAGE ON *.* TO '{{ nss_mysql_user }}'@'%' IDENTIFIED BY '{{ nss_mysql_user_password }}';
+
+GRANT Delete,Select,Insert,Update (username, uid, gid, gecos, homedir, shell, password,
+              lstchg, min, max, warn, inact, expire, flag)
+             ON users
+             TO '{{ nss_mysql_root_user }}'@'localhost';
+GRANT Delete,Select,Insert,Update (username, uid, gid, gecos, homedir, shell, password,
+              lstchg, min, max, warn, inact, expire, flag)
+             ON users
+             TO '{{ nss_mysql_root_user }}'@'%';
+
+GRANT Delete,Select,Insert,Update (name, password, gid)
+             ON groups
+             TO '{{ nss_mysql_root_user }}'@'localhost';
+GRANT Delete,Select,Insert,Update (name, password, gid)
+             ON groups
+             TO '{{ nss_mysql_root_user }}'@'%';
+
+
+GRANT Select (username, uid, gid, gecos, homedir, shell)
+             ON users
+             TO '{{ nss_mysql_user }}'@'%';
+GRANT Select (name, password, gid)
+             ON groups
+             TO '{{ nss_mysql_user }}'@'%';
+
+GRANT Select (username, gid)
+             ON grouplist
+             TO '{{ nss_mysql_user }}'@'%';
+
+GRANT Delete,Select,Insert,Update (username, gid)
+             ON grouplist
+             TO '{{ nss_mysql_root_user }}'@'localhost';
+GRANT Delete,Select,Insert,Update (username, gid)
+             ON grouplist
+             TO '{{ nss_mysql_root_user }}'@'%';
+

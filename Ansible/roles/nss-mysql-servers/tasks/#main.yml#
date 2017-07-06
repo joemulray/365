@@ -1,0 +1,14 @@
+---
+  - name: Ensure auth database exists
+    mysql_db: name={{ nss_mysql_db }} state=present
+    notify:
+    - Copy over initialization file
+    - Create Auth DB
+    - Restart MySQL
+
+  - name: Tell MySQL to listen on network connections
+    lineinfile: dest=/etc/mysql/my.cnf regexp='^bind-address\s*=.*$' line='bind-address = 0.0.0.0' owner=root group=root mode=0644
+    notify:
+    - Restart MySQL
+
+  - name: 

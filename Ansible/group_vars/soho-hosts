@@ -1,0 +1,19 @@
+---
+"accounts": {
+  cs365-jam699-n0: [
+    { 'name': 'u1', 'uid': 2000, 'gecos': 'U. User1', },
+    { 'name': 'u2', 'uid': 2001, 'gecos': 'U. User2', },
+    { 'name': 'u3', 'uid': 2002, 'gecos': 'U. User3', },
+  ],
+  cs365-jam699-n1: [
+    { 'name': 'u1', 'uid': 2000, 'gecos': 'User1', },
+    { 'name': 'u3', 'uid': 2001, 'gecos': 'User3', },
+    { 'name': 'u5', 'uid': 2002, 'gecos': 'User5', },
+  ],
+  m2: [
+    { 'name': 'u3', 'uid': 2000, 'gecos': 'u3', },
+    { 'name': 'u1', 'uid': 2001, 'gecos': 'u1', },
+    { 'name': 'u4', 'uid': 2002, 'gecos': 'u4', },
+  ],
+} 
+

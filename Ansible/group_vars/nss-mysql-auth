@@ -1,0 +1,8 @@
+---
+mysql_root_password: foo
+nss_mysql_db: auth
+nss_mysql_root_user: nss-root
+nss_mysql_user: nss-user
+nss_mysql_user_password: userpass
+nss_mysql_host: m0
+nss_mysql_root_password: rootpass
