@@ -1,0 +1,33 @@
+1. What is the importance of the default route? What are some possible issues when you don’t have your default route setup correctly?
+
+2. Run a traceroute to andere.tallwireless.com . What can you tell about the path the traffic is taking? Can you identify the cities the traffic is passing through?
+
+3. What is the subnet mask for your hosts? How many hosts can be contained within that subnet?
+
+Both of them are 255.255.252.0 and can contain 64 hosts within that subnet
+
+
+4. Run a traceroute to teaching.tallwireless.com . What are the difference compared to andere.tallwireless.com within the first 3 hops?
+
+
+
+5. What is the MAC address of the default gateway?
+The default MAC address of the default gateway is address 192.168.4.1 .
+
+6. What are some concerns that should be taken into consideration when developing a policy for securing the network on a host?
+
+
+7. Port scanning is a simple way to determine what ports are open on a host and what services it offers. Using one of your node, provide a list of common services that are available on andere.tallwireless.com and andere.tallwireless.com .
+
+traceroute to andere.tallwireless.com (45.79.129.38), 30 hops max, 60 byte packets
+ 1  gw6-te-0-3-0-144-118-0-6.noc.drexel.edu (144.118.0.6)  1.072 ms  1.047 ms  1.089 ms
+ 2  gw1-te-0-2-0-204-238-76-81.noc.drexel.edu (204.238.76.81)  1.001 ms  1.034 ms  1.061 ms
+ 3  204.238.76.235 (204.238.76.235)  8.248 ms  8.235 ms  8.220 ms
+ 4  lo-0.8.rtr.newy2.net.internet2.edu (64.57.20.215)  3.159 ms  3.317 ms  3.299 ms
+ 5  162.252.69.209 (162.252.69.209)  3.106 ms  3.251 ms  3.071 ms
+ 6  ae5.cr2.lga5.us.zip.zayo.com (64.125.21.82)  3.292 ms  2.970 ms  3.133 ms
+ 7  ae27.cs2.lga5.us.eth.zayo.com (64.125.30.252)  5.570 ms  5.568 ms  5.553 ms
+ 8  ae6.mpr2.ewr1.us.zip.zayo.com (64.125.30.157)  3.706 ms  3.681 ms  3.666 ms
+ 9  128.177.26.242 (128.177.26.242)  6.233 ms  6.235 ms  6.223 ms
+10  173.255.239.3 (173.255.239.3)  4.322 ms 173.255.239.13 (173.255.239.13)  4.489 ms 173.255.239.11 (173.255.239.11)  5.708 ms
+11  andere.tallwireless.com (45.79.129.38)  4.050 ms !X  4.082 ms !X  3.997 ms !X
