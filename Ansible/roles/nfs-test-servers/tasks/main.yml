@@ -1,0 +1,86 @@
+---
+  - name: Add ro directory
+    file:  
+       path:  /export/to
+       state: directory
+       mode: 0755  
+
+  - name: Add map to nobody directory
+    file:
+       path:  /export/map-to-nobody
+       state: directory
+       mode: 0755  
+
+  - name: Add map-to-u1  directory
+    file:
+       path:  /export/map-to-u1
+       state: directory
+       mode: 0777 
+
+  - name: Add hard directory
+    file:
+       path:  /export/hard
+       state: directory
+       mode: 0755  
+
+  - name: Add soft directory
+    file:
+       path:  /export/soft
+       state: directory
+       mode: 0755  
+
+  - name: Add client [m0] /export/ro
+    lineinfile:
+      dest: /etc/exports
+      line: '/export/ro       10.246.251.75(ro,sync,no_root_squash,no_subtree_check)'
+
+  - name: Add client [m0] to /export/map-to-nobody
+    lineinfile:  
+      dest: /etc/exports
+      line: '/export/map-to-nobody       10.246.251.75(rw,anonuid=65534,anongid=65534,sync,no_root_squash,no_subtree_check)'
+
+  - name: Add host to [m0] /export/map-to-u1
+    lineinfile:  
+      dest: /etc/exports
+      line: '/export/map-to-u1       10.246.251.75(rw,sync,no_root_squash,no_subtree_check)'
+
+  - name: Add client [m0] to /export/hard
+    lineinfile:  
+      dest: /etc/exports
+      line: '/export/hard       10.246.251.75(rw,sync,no_root_squash,no_subtree_check)'
+
+  - name: Add client [m0] to /export/soft
+    lineinfile:
+      dest: /etc/exports
+      line: '/export/soft       10.246.251.75(rw,sync,no_root_squash,no_subtree_check)'
+
+  - name: Add client [m1] /export/ro
+    lineinfile:
+      dest: /etc/exports
+      line: '/export/ro       10.246.251.84(ro,sync,no_root_squash,no_subtree_check)'
+
+  - name: Add client [m1] to /export/map-to-nobody
+    lineinfile:  
+      dest: /etc/exports
+      line: '/export/map-to-nobody       10.246.251.84(rw,anonuid=65534,anongid=65534,sync,no_root_squash,no_subtree_check)'
+
+  - name: Add host to [m1] /export/map-to-u1
+    lineinfile:  
+      dest: /etc/exports
+      line: '/export/map-to-u1       10.246.251.84(rw,sync,no_root_squash,no_subtree_check)'
+
+  - name: Add client [m1] to /export/hard
+    lineinfile:  
+      dest: /etc/exports
+      line: '/export/hard       10.246.251.84(rw,sync,no_root_squash,no_subtree_check)'
+
+  - name: Add client [m1] to /export/soft
+    lineinfile:
+      dest: /etc/exports
+      line: '/export/soft       10.246.251.84(rw,sync,no_root_squash,no_subtree_check)'
+
+  - name: create NFS table
+    command: exportfs -a
+
+  - name: satrt nfs server
+    command: service nfs-kernel-server start

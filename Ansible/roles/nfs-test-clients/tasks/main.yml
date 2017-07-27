@@ -1,0 +1,81 @@
+---
+
+- name: create ro dir on clients
+  file:
+     path: /mnt/nfs/export/ro
+     state: directory
+     recurse: yes
+
+- name: create map-to-nobody dir on clients
+  file:
+     path: /mnt/nfs/export/map-to-nobody
+     state: directory
+     recurse: yes
+
+
+- name: create map-to-u1 dir on clients
+  file:
+     path: /mnt/nfs/export/map-to-u1
+     state: directory
+     recurse: yes
+
+- name: create soft dir on clients
+  file:
+     path: /mnt/nfs/export/soft
+     state: directory
+     recurse: yes
+
+- name: create hard dir on clients
+  file:
+     path: /mnt/nfs/export/hard
+     state: directory
+     recurse: yes
+
+- name: mount nfs /nfs/export/ro
+  mount:
+     name: /mnt/nfs/export/ro
+     src: 10.246.251.75:/export/ro
+     fstype: nfs
+     opts: ro
+     state: mounted
+
+- name: mount nfs /nfs/export/map-to-nobody
+  mount:
+     name: /mnt/nfs/export/map-to-nobody
+     src: 10.246.251.75:/export/map-to-nobody
+     fstype: nfs
+     state: mounted
+
+- name: mount nfs /nfs/export/map-to-u1
+  mount:
+     name: /mnt/nfs/export/map-to-u1
+     src: 10.246.251.75:/export/map-to-u1
+     fstype: nfs
+     state: mounted
+
+- name: mount nfs /nfs/export/soft
+  mount:
+     name: /mnt/nfs/export/soft
+     src: 10.246.251.75:/export/soft
+     fstype: nfs
+     opts: soft
+     state: mounted
+
+
+- name: mount nfs /nfs/export/hard
+  mount:
+     name: /mnt/nfs/export/hard
+     src: 10.246.251.75:/export/hard
+     fstype: nfs
+     opts: hard
+     state: mounted
+
+
+- name: Copy Unit Tests Over
+  copy: src=unit_tests dest=/usr/local owner=root group=root mode=755
+
+- name: unit testing for client permissions and flags
+  command: "/usr/local/unit_tests/ut-permission.sh"
+  register: ut_output
+
+

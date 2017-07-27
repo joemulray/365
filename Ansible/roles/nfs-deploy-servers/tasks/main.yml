@@ -1,0 +1,22 @@
+---
+  - name: Install nfs-kernel-server package on server hosts
+    apt: name=nfs-kernel-server state=present
+
+  - name: Host scripts
+    include: create-share.yml
+    tags: create-share
+
+  - name: Add client [m1] to /etc/exports
+    lineinfile:
+      dest: /etc/exports
+      line: '/home       10.246.251.84(rw,sync,no_root_squash,no_subtree_check)'
+
+  - name: Add client [m0] to /etc/exports 
+    lineinfile:  
+      dest: /etc/exports
+      line: '/home       10.246.251.75(rw,sync,no_root_squash,no_subtree_check)'
+
+  - name: Add host to /etc/exports
+    lineinfile:  
+      dest: /etc/exports
+      line: '/var/nfs    10.246.251.75(rw,sync,no_subtree_check)'

@@ -1,0 +1,9 @@
+---
+- name: Copy hosts scripts over
+  copy: src=create-share dest=/usr/local owner=root group=root mode=755
+
+- name: Run Host scripts
+  command: "/usr/local/create-share/create-share-dir.sh"
+  register: cs_output
+
+

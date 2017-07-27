@@ -1,0 +1,4 @@
+---
+- hosts: nfs-deploy-clients
+  roles:
+    - nfs-test-clients

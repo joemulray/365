@@ -5,15 +5,26 @@
 
   - name: Install hosts file
     # From: http://xmeblog.blogspot.com/2013/06/ansible-dynamicaly-update-etchosts.html
-    lineinfile: dest=/etc/hosts regexp='.*{{ item }}$' line="{{ hostvars[item]['ansible_default_ipv4']['address'] }} {{item}}" state=present
-    when: hostvars[item]['ansible_default_ipv4']['address'] is defined
-    with_items: groups['all'] 
+    lineinfile:
+            dest: /etc/hosts
+            state: present
+            regexp: '^({{ hostvars[item]["ansible_ssh_host"] }})(.*)$'
+            line: '{{ hostvars[item]["ansible_ssh_host"] }} {{ item }} \2'
+            backrefs: yes
+            unsafe_writes: yes
+    when: hostvars[item]['ansible_ssh_host'] is defined
+    with_items: "{{ groups['all'] }}"
 
-  - name: Set Hostname
-    shell: hostname {{ hostname }}
+    #  - name: Set Hostname
+    #    shell: hostname {{ hostname }}
 
   - name: Set /etc/hostname
-    lineinfile: dest=/etc/hostname state=present regexp='^.*$' line={{ hostname }}
+    lineinfile:
+            dest: /etc/hostname
+            state: present
+            regexp: '^.*$'
+            line: "{{ hostname }}"
+            unsafe_writes: 'yes'
 
   - name: Fix sshd_config to not allow passwords over ssh
     lineinfile: 
@@ -37,3 +48,10 @@
 
   - name: Install traceroute
     apt: name=traceroute state=present
+
+  - name: Install misc packages
+    apt: name={{ item }}
+    with_items:
+      - rsync
+      - vim
+      - apt-utils

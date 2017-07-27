@@ -1,0 +1,3 @@
+---
+- include: nfs-deploy-servers.yml
+- include: nfs-deploy-clients.yml

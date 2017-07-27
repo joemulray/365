@@ -1,0 +1,18 @@
+Joseph Mulray
+CS 365
+NFS Storage
+
+
+Q: How will you test whether the hard and soft flags are working? *Try stopping the nfs-kernel-server and see what happens to the client (make sure m0 isn’t mounting any nfs directories at the time) Q: Can you test them at the same time?
+
+Test whether the soft and hard flags are working by shutting down the client and checking if other clients are still available. Also by shutting down the server to see if the clients flags are still working. You cannot test them at the same time because the hard flag will intefere with the soft flag when running and vice versa.
+
+
+Q: Can m0 function? 
+m0 can function because m1 is only one of the clients connecting to the server, while m0 is a client and the host.
+
+Q: Can m1 function? 
+m1 can function with a shut down of m0 with hard mounts, after the timeout is reached control returns to the client
+
+Q: With soft mounts? 
+m1 cannot function with a softmount of nfs while server m0 is down, will just timeout and return.

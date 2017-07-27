@@ -1,0 +1,3 @@
+---
+- include: nfs-test-servers.yml
+- include: nfs-test-clients.yml

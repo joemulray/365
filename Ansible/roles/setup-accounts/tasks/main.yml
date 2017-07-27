@@ -28,7 +28,12 @@
   with_items:
   - "{{ home_dirs.stdout_lines }}"
 
+- name: Install aptitude package
+  apt: name=aptitude state=present
+
+- name: install ntp  
+  command: aptitude -y install ntp
+
 - name: Account Unit Tests
   include: unit_tests.yml
   tags: unit_tests
-

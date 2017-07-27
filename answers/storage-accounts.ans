@@ -1,0 +1,51 @@
+Joseph Mulray
+CS 365
+Storage, Backup and Accounts
+7/21/17
+
+
+ACCOUNTS
+
+1. List three problems of combining accounts from different machines.
+	
+	Some problems that occur when combining accounts from different machines are overwriting files from one account to another. In areas where one home directory for example are found merging accounts can cause corruption within files. Also an issue that can arise is permission issues that arise because of having a different configuration one account from another.
+
+
+2. Explain why reusing user account uid/gid/usernames is a bad idea.
+
+	It is a bad idea to reuse user account uid/gid/usernames because if a new account is created with a preexistant uid that already existed the new user would also have ownership of all previous files tied to that uid.
+
+3. What happens to files owned by a deleted account, inside homedir/outside homedir?
+
+	Files owned by a deleted account, inside homedir and outside hoemdir will continue to exists after the user is removed. Only if it is specified will it remove the home directory of the user.
+
+4. List five problems with centralizing accounts by picking a master node and copying the account files to other nodes.
+
+	Some problems that occur when centralizing accounts from a master node and copying to other nodes is the possibility  of having files that are corrupted on the master node that now are passed along to the other nodes, which can cause several errors that get passed along in a chain. Also this adds another field of security risk when passing along contents to other nodes if ones person obtains a copy of the accounts file, he or she now has access under every node. One more issue that arrises from using this method is the process of editing users now has to edited on every single node because removing a user from one node only means he now does not have access to that point at the same time could easily login to another node.
+
+5. What happens if you remove the flat authorization files? Do things still work (ls -l, mkdir foo, su - user)?
+
+	When you remove the flat authorization files the user no loger has access to the system to login and preform commands. You will be able to do basic commands but there will be no reference to your account on the system.
+
+-------------------------------------------------------
+
+BACKUPS
+1. What is considered a backup? What is the difference between backups and redundancy?
+
+	A backup refers to the copying of physical, virtual files or databases to a different location site in case of equipment failure or an instance where files are lost or damaged. The difference between backups and redundancy is redundancy is one copy is always present on the machine itself and a second copy is in a different location. A backup only stores information from when it was last backedup while redundancy there is always a copy avaiable then can be used.
+
+
+2. Why is it important to backup systems?
+
+	It is important to backup systems in case of a an incident of lost or damaged files, or in case of an internal issue or lost device, a copy of files can be loaded onto a new system. 
+
+3. Name three things that should be taken into account when deciding backup policy.
+
+	1. Location of backing up information of systems is highly important when deciding a backup policy, to ensure that backups are in a secure remote location that will not be affected in case of an event or damage.
+
+	2. How often backups are taken is essential, if a systems information is drastically different in a period of a 2 weeks there is an importance of timing of backups where you do not want to wait too long for a backup where the previous backup is not efficient enough.
+
+	3. What is being backed up should be taken into account when deciding a backup policy, if it is account history vs system users, if something is not needed there is no need for a backup, this is why what is being backedup must be considered when developing a policy.
+
+
+

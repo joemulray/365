@@ -1,0 +1,9 @@
+---
+  - name: Install nfs-common on client hosts
+    apt: name=nfs-common state=present
+
+  - name: Client scripts
+    include: client-mount.yml
+    tags: client-mount
+
+

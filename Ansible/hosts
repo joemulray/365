@@ -13,4 +13,10 @@ m0
 m0
 m1
 
+[nfs-deploy-servers]
+m0
+
+[nfs-deploy-clients]
+m0
+m1
 

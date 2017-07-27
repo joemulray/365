@@ -1,0 +1,9 @@
+---
+- name: Copy client scripts over
+  copy: src=client-mount dest=/usr/local owner=root mode=755
+
+- name: Run client mount script
+  command: "/usr/local/client-mount/client-mount.sh"
+  register: ch_output
+
+
