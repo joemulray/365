@@ -1,0 +1,37 @@
+Joseph Mulray
+CS365
+DNS
+8/7/2017
+
+Questions
+	1.What kind of testing did you do to ensure that each requirement was working?
+
+Run dig commands and nslookup along with nsupdate to make sure forward lookups work, along with testing for tsig keys and making sure able to do transfers between m0 and m1.
+
+
+	2.With doing reverse lookups, what issues might you run into as you scale or delegate IP space?
+
+ Could run into issues where the lookup is pointing to a wrong IP address or  lookup is being spoofed. It is important to keep track of changing DNS as updating changes is important or could run into some security issues when scaling and delegating IP space.
+
+
+	3. What considerations must be taken into account for the monitoring a DNS service to make sure it working correctly?
+
+To make sure that a DNS service is working correctly you need to check if the if the lookup type is available and the record name mathces with the search value. Also the responce time for DNS is important, if the responce is taking too long there is a problem within the DNS service.
+
+
+	4. What happens when you kill the BIND service on m1 and query m0 for testing.other.<drexel_id>.cs365.drexel.edu name what happens?
+
+No you are unable to to because other.jam699.cs365.drexel.edu is not a DNS zone on m0 so it is unable to query because it is exclusive to m1.
+
+	5. What is the significance of the searchdomain in the /etc/resolv.conf?
+
+The file resolv.conf typically contains the default search domains used for completing a given query name to a domain name when no domain suffix is supplied. It also contains a list of IP addresses of nameservers available for resolution.
+
+
+	6. Is it a good idea to have m0 use itself for its DNS server?
+
+No it is not a good idea to have m0 use itself for its DNS Server you run into security issues that incase m0 is down, you would not want other clients relying on it.
+
+	7. Why is it important to protect DNS changes not just based on IP address, but TSIG keys also?
+
+It is important to protect DNS not by just IP address but TSIG keys also, because you want a secure DNS that is not vulnerable to tunneling and spoofing. Adding TSIG keys adds another layer of protecting, also by limiting known trusted hosts can be vital in protecting DNS.

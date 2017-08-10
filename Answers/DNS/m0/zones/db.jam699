@@ -1,0 +1,17 @@
+; BIND data file for local loopback interface
+;
+$TTL    10
+@       IN      SOA     cs365-jam699-n0.jam699.cs365.drexel.edu. root.cs365-jam699-n0.jam699.cs365.drexel.edu. (
+                              3         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+
+; name servers - NS records
+@      IN      NS      cs365-jam699-n0.jam699.cs365.drexel.edu.
+@      IN      NS      cs365-jam699-n1.jam699.cs365.drexel.edu.
+
+; name servers - A records
+cs365-jam699-n0.jam699.cs365.drexel.edu.          IN      A       10.246.251.115
+cs365-jam699-n1.jam699.cs365.drexel.edu.          IN      A       10.246.251.193

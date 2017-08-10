@@ -1,6 +1,6 @@
 [soho-hosts]
-m0 ansible_ssh_host=10.246.251.75 hostname=cs365-jam699-n0
-m1 ansible_ssh_host=10.246.251.84 hostname=cs365-jam699-n1
+m0 ansible_ssh_host=10.246.251.115 hostname=cs365-jam699-n0
+m1 ansible_ssh_host=10.246.251.193 hostname=cs365-jam699-n1
 
 [nss-mysql-auth:children]
 nss-mysql-servers 

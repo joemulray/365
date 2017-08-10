@@ -1,0 +1,22 @@
+//
+// Do any local configuration here
+//
+
+// Consider adding the 1918 zones here, if they are not used in your
+// organization
+//include "/etc/bind/zones.rfc1918";
+
+
+zone "jam699.cs365.drexel.edu" {
+    type master;
+    file "/etc/bind/zones/db.jam699"; # zone file path
+    allow-transfer { 10.246.251.193; };   
+};
+
+
+zone "251.246.10.in-addr.arpa" {
+    type master;
+    file "/etc/bind/zones/db.251"; # zone file path
+    allow-transfer { 10.246.251.193; };   
+};
+

@@ -1,0 +1,7 @@
+Joseph Mulray
+
+m0 host: 10.246.251.115
+m1 host: 10.246.251.193
+
+Put all the files from bind into their directories, sorry for having everyfile using sftp and wasn't working correctly for me.
+Everything worked fine for the most part

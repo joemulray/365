@@ -21,11 +21,7 @@ Networking and Ansible
 
 4. Run a traceroute to teaching.tallwireless.com . What are the difference compared to andere.tallwireless.com within the first 3 hops?
 
-<<<<<<< HEAD
 	The andere address first 3 hops are all within Drexel, while the traceroute for teaching was within Drexel for the first hop, and the second and third hops were different in location having the second in East Elmhurst, 
-=======
-	The andere address first 3 hops are all within Drexel, while the traceroute for teaching was within Drexel for the first hop, and the second and third hops were different in location having the second in East Elmhurst.
->>>>>>> 60bd8320ad42f109bb7879bf31f45402359fa43b
 
 
 5. What is the MAC address of the default gateway?
@@ -61,14 +57,3 @@ Networking and Ansible
 	587/tcp open  submission
 	993/tcp open  imaps
 
-=======
-
-	PORT    STATE SERVICE
-	22/tcp  open  ssh
-	25/tcp  open  smtp
-	53/tcp  open  domain
-	80/tcp  open  http
-	143/tcp open  imap
-	443/tcp open  https
-	587/tcp open  submission
-	993/tcp open  imaps

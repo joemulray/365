@@ -1,0 +1,28 @@
+acl "trusted" {
+        10.246.251.115;
+	10.246.208.0/22;
+	144.118.0.0/16;
+	125.29.0.0/16;
+};
+
+
+options {
+	directory "/var/cache/bind";
+        recursion yes;                 # enables resursive queries
+        allow-recursion { trusted; };  # allows recursive queries from "trusted" clients
+        listen-on { 10.246.251.115; };   # ns1 private IP address - listen on private network only
+        allow-transfer { none; };      # disable zone transfers by default
+	listen-on-v6 { any; };
+        allow-query { any; };	
+	
+	#provide-ixfr yes;
+
+       // forwarders {
+       //	      8.8.4.4;
+       //};
+
+
+	auth-nxdomain no;    # conform to RFC1035
+	listen-on-v6 { any; };
+};
+

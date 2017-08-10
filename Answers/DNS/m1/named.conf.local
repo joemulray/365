@@ -1,0 +1,27 @@
+//
+// Do any local configuration here
+//
+
+// Consider adding the 1918 zones here, if they are not used in your
+// organization
+//include "/etc/bind/zones.rfc1918";
+
+zone "other.jam699.cs365.drexel.edu" {
+    type master;
+    file "zones/db.other";
+    allow-transfer { 10.246.251.115; };
+};
+
+zone "jam699.cs365.drexel.edu" {
+    type slave;
+    file "slaves/db.jam699";
+    masters { 10.246.251.115; };  # ns1 private IP
+};
+
+zone "251.246.10.in-addr.arpa" {
+    type slave;
+    file "slaves/db.251";
+    masters { 10.246.251.115; };  # ns1 private IP
+};
+
+
