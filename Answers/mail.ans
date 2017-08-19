@@ -1,0 +1,119 @@
+Joseph Mulray
+CS365
+Mail
+8/10/17
+
+
+1. Paste the output of the DNS entries for .cs365.drexel.edu and other..cs365.drexel.edu showing m0 as the primary entry and m1 as the secondary.
+
+	
+	root@cs365-jam699-n0:/etc/bind/zones# dig MX cs365-jam699-n0.jam699.cs365.drexel.edu @10.246.251.115
+
+	; <<>> DiG 9.10.3-P4-Ubuntu <<>> MX cs365-jam699-n0.jam699.cs365.drexel.edu @10.246.251.115
+	;; global options: +cmd
+	;; Got answer:
+	;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 55391
+	;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 2, ADDITIONAL: 4
+
+	;; OPT PSEUDOSECTION:
+	; EDNS: version: 0, flags:; udp: 4096
+	;; QUESTION SECTION:
+	;cs365-jam699-n0.jam699.cs365.drexel.edu. IN MX
+
+	;; ANSWER SECTION:
+	cs365-jam699-n0.jam699.cs365.drexel.edu. 10 IN MX 10 mail.cs365-jam699-n0.jam699.cs365.drexel.edu.
+		
+	;; AUTHORITY SECTION:
+	jam699.cs365.drexel.edu. 10	IN	NS	cs365-jam699-n0.jam699.cs365.drexel.edu.
+	jam699.cs365.drexel.edu. 10	IN	NS	cs365-jam699-n1.jam699.cs365.drexel.edu.
+
+	;; ADDITIONAL SECTION:
+	mail.cs365-jam699-n0.jam699.cs365.drexel.edu. 10 IN A 10.246.251.115
+	cs365-jam699-n0.jam699.cs365.drexel.edu. 10 IN A 10.246.251.115
+	cs365-jam699-n1.jam699.cs365.drexel.edu. 10 IN A 10.246.251.193
+
+	;; Query time: 0 msec
+	;; SERVER: 10.246.251.115#53(10.246.251.115)
+	;; WHEN: Mon Aug 14 18:44:32 EDT 2017
+	;; MSG SIZE  rcvd: 181
+
+	root@cs365-jam699-n0:/etc/bind/zones# dig MX cs365-jam699-n1.jam699.cs365.drexel.edu @10.246.251.115
+
+	; <<>> DiG 9.10.3-P4-Ubuntu <<>> MX cs365-jam699-n1.jam699.cs365.drexel.edu @10.246.251.115
+	;; global options: +cmd
+	;; Got answer:
+	;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 10803
+	;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 2, ADDITIONAL: 4
+
+	;; OPT PSEUDOSECTION:
+	; EDNS: version: 0, flags:; udp: 4096
+	;; QUESTION SECTION:
+	;cs365-jam699-n1.jam699.cs365.drexel.edu. IN MX
+
+	;; ANSWER SECTION:
+	cs365-jam699-n1.jam699.cs365.drexel.edu. 10 IN MX 10 mail2.cs365-jam699-n1.jam699.cs365.drexel.edu.
+
+	;; AUTHORITY SECTION:
+	jam699.cs365.drexel.edu. 10	IN	NS	cs365-jam699-n1.jam699.cs365.drexel.edu.
+	jam699.cs365.drexel.edu. 10	IN	NS	cs365-jam699-n0.jam699.cs365.drexel.edu.
+
+	;; ADDITIONAL SECTION:
+	mail2.cs365-jam699-n1.jam699.cs365.drexel.edu. 10 IN A 10.246.251.193
+	cs365-jam699-n0.jam699.cs365.drexel.edu. 10 IN A 10.246.251.115
+	cs365-jam699-n1.jam699.cs365.drexel.edu. 10 IN A 10.246.251.193
+
+	;; Query time: 0 msec
+	;; SERVER: 10.246.251.115#53(10.246.251.115)
+	;; WHEN: Mon Aug 14 18:45:35 EDT 2017
+	;; MSG SIZE  rcvd: 182
+
+	================================================================================================
+
+	root@cs365-jam699-n1:~# dig MX cs365-jam699-n1.other.jam699.cs365.drexel.edu @10.246.251.193
+
+	; <<>> DiG 9.10.3-P4-Ubuntu <<>> MX cs365-jam699-n1.other.jam699.cs365.drexel.edu @10.246.251.193
+	;; global options: +cmd
+	;; Got answer:
+	;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 65532
+	;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 2, ADDITIONAL: 4
+
+	;; OPT PSEUDOSECTION:
+	; EDNS: version: 0, flags:; udp: 4096
+	;; QUESTION SECTION:
+	;cs365-jam699-n1.other.jam699.cs365.drexel.edu. IN MX
+
+	;; ANSWER SECTION:
+	cs365-jam699-n1.other.jam699.cs365.drexel.edu. 10 IN MX	10 mail.cs365-jam699-n1.other.jam699.cs365.drexel.edu.
+
+	;; AUTHORITY SECTION:
+	other.jam699.cs365.drexel.edu. 10 IN	NS	cs365-jam699-n1.other.jam699.cs365.drexel.edu.
+	other.jam699.cs365.drexel.edu. 10 IN	NS	cs365-jam699-n0.other.jam699.cs365.drexel.edu.
+
+	;; ADDITIONAL SECTION:
+	mail.cs365-jam699-n1.other.jam699.cs365.drexel.edu. 10 IN A 10.246.251.193
+	cs365-jam699-n0.other.jam699.cs365.drexel.edu. 10 IN A 10.246.251.115
+	cs365-jam699-n1.other.jam699.cs365.drexel.edu. 10 IN A 10.246.251.193
+
+	;; Query time: 0 msec
+	;; SERVER: 10.246.251.193#53(10.246.251.193)
+	;; WHEN: Mon Aug 14 18:54:46 EDT 2017
+	;; MSG SIZE  rcvd: 187
+
+
+
+
+
+2. What are the advantages to using the Maildir format over mailbox? Does scale matter?
+	
+	The advantages of using the Maildir format over mailbox is it is much faster when handling large amount of email messages, in this case scale does matter when dealing with a situation where larger range of scope across a network with a large amount of users. It also can control expiration times and duplicates in mail.  
+
+3. Why is not being an open mail relay important?
+	Not being in open mail relay is important because if you are in open relay it allows anyone to use your mail as a spam server. So by avoiding being in open relay can redule the use of spam within your email server.
+
+4. How did you test to ensure m1 was behaving correctly?
+	
+	To ensure that m1 was behaving correctly I had to shut down m0 to test whether or not the email client was configured correctly. It waits in queue which it should until m0 is back on, if not configured properly emails sent during that time would be rejected.
+
+5. If you wanted to seperate out your SMTP and IMAP servers, what would you have to do?
+		
+	If you wanted to seperate out your SMTP and IMAP servers you would have to remove some of the hosting ports to host at different endpoints and ensure that the clinets are aware of the differences, other wise would not know which server to send or recieve to.
