@@ -1,0 +1,38 @@
+Joseph Mulray
+CS365
+Webservices
+8/21/17
+
+
+1. What issues would arise if you were to do a URL rewrite when proxying a connection?
+
+	Some issues that would arise from rewriting http://www.foobar.com/foo to  http://10.50.50.10/ would be that it will not proxy the request back to the user. Also it would not be able to properly rewrite the request url received by that server.
+
+
+2. What issues do you face when doing round robin with SSH connections? How did you solve the issues?
+	
+	Issues that arise when you do round robin with SSH connections is having the host always connect to the same server rather spreading the traffic across a cluster. I was able to resolve this issue by running a load balance of the incoming traffic to the webserver to both m0 and m1.
+
+
+3. Why is being able to ensure all web traffic goes to the same server important?
+	
+	It is important to ensure all web traffic goes to the same server because in the event that a server or host is taken offline, backup servers will know how to handle the requests, at the same time distributing the traffic.
+	
+4. What is the importance of maintaining consistent files between webservers intended to serve the same content?
+
+	It is important to maintain the same consistent files between webservers intended to serve the same content because in the event you are using a load balancer or have a server go down and traffic is redirected you would want the same content to be displayed across all webservers. User should not be aware that there is any change or changes within the service itself.
+
+
+5. What issues did you run into in setting up HA proxy to listen on port 80 while also trying to have a webserver serve out content?
+	
+	Ran into issues where I was overloading the haproxy load balancer on webserver. Had to configure the max connections in haproxy to not overload connections.
+
+
+6. What considerations should one take in protecting a web server? Think in terms of performance and security.
+
+	Authentication is a huge role in securing and protecting a web server. Can be done using some sort of method to identify authentication such as ssh keys and encryption. Another piece of protection for your webserver is a firewall, restricting access to only specific ports, and only exposing services that are supposed to be public. To increase performance you should reduce the number of http requests, can add more hosts so one server is not being overloaded and crashing website, also protecting from DDOS attacks.
+
+
+7. What kind of monitoring would you put in place to ensure your webserver is working correctly? How would you monitor the webservers independent of the load balancer?
+
+	You could use some sort of monitoring service such as Nagios to monitor your webserver to see if it is working correctly, or some sort of health check. Also could provide some sort of testing that the server returned the correct responces. Also would use a cluster of webservers so that in the event of one webserver failing, you can always point to another up and running host.
