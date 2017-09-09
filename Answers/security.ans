@@ -1,0 +1,14 @@
+Joseph Mulray
+September 3 2017
+CS365
+Security
+DNS
+
+
+1. Given your understanding of how DNSSEC works and the your deloyment of DNS for the class, why would signing your domain not result in a non-verifiable domain name?
+
+	Signing our domain would not result in a non-verifiable domain because of steps completed in doing a lookup on our domain. It allows people that now receive that domain to do a reverse lookup or other means such as SSL to check if the domain is valid or not. Also if there is a case where someone needed to know who this domain belonged to, it is signed by a root server which increases our ability to verify the domain name based on the address given.
+
+2. What are the advantages of using DANE records? What is the basis of why DANE records are trustworthy?
+
+	There are several advantages of using DANE records such as that it uses CA constraints, SCC Service Certificate Constraints, and Trust Anchor Assertion that are all beneficial for DNS services. Each one of them adding another layer of security, such as SCC making clients accept a specific certificate that would provide more detail from Certificate Authority. By using DANE records you are able to secure who can and cannot have access to your DNS records. It provides an extra layer of security to DNS. DANE records are trustworthy because it builds on top DNSSEC that already provides the authentication of data. There are several lengths of security that DANE goes through which give it its trustworthiness. 
