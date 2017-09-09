@@ -1,0 +1,23 @@
+Joseph Mulray
+September 3 2017
+CS365
+Monitoring
+
+1. Why is important to do active monitoring along with passive monitoring?
+
+	It is important to do active monitoring along with passive monitoring because both are important in tracking and testing Network activity. Active monitoring entails injecting test traffic onto a network and monitoring the flow of that traffic while passive monitoring entails monitoring traffic that is already on the network, instead of injecting traffic into your network like active monitoring.
+
+	2. If you were to set up a active monitor for your mail system, what are the characteristics you would be monitoring for? How would you go about testing that?
+
+		Monitoring for unusual traffic or suspicious emails can be characteristics be monitoring for on a mailing system. Also that mail is properly received to the target is also something you could go about testing for. You can go about testing this by creating a script to intercept mail and check incoming and outgoing traffic on the server.
+
+	3. What is the difference between test you would use for monitoring verse those you used for deploying a system, say DNS?
+
+	Testing you would use for monitoring is completely different from those that you would use in something for deploying a system such as DNS. For deploying a system you are testing to make sure the system and application is working properly, for the use of monitoring you are checking the progress or quality of a network traffic or what you are monitoring. There is no correct test case for monitoring, you are judging based on the whole not as if a single item failed the system will fail.
+
+
+	4. Why would central monitoring system be better than one that is distributed amongst all of the nodes?
+
+	Central monitoring system would be better in terms of updating and constantly adding new monitoring services. This way you are not constantly going through each of the nodes and adding each individual new item on a constantly changing platform. Saves time and effort just to use a central monitoring system.
+
+
